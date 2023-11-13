@@ -29,7 +29,7 @@ let projects = [
 
 const TaskType = new GraphQLObjectType({
     name: 'Task',
-    fields: {
+    fields: () => ({
         id: { type: GraphQLID },
         project: {
             type: ProjectType,
@@ -40,17 +40,17 @@ const TaskType = new GraphQLObjectType({
         title: { type: GraphQLString },
         weight: { type: GraphQLInt },
         description: { type: GraphQLString }
-    }
+    })
 });
 
 const ProjectType = new GraphQLObjectType({
     name: 'Project',
-    fields: {
+    fields: () => ({
         id: { type: GraphQLID },
         title: { type: GraphQLString },
         weight: { type: GraphQLInt },
         description: { type: GraphQLString }
-    }
+    })
 })
 
 const RootQuery = new GraphQLObjectType({
