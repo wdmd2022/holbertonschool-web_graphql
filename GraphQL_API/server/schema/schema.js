@@ -1,6 +1,6 @@
 // here we will talk about some cool object stuff
 
-const {GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLSchema, GraphQLID} = require('graphql');
+const {GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLSchema, GraphQLID, GraphQLList} = require('graphql');
 const lodash = require('lodash');
 
 let tasks = [
@@ -49,9 +49,15 @@ const ProjectType = new GraphQLObjectType({
         id: { type: GraphQLID },
         title: { type: GraphQLString },
         weight: { type: GraphQLInt },
-        description: { type: GraphQLString }
+        description: { type: GraphQLString },
+        tasks: {
+            type: new GraphQLList(TaskType),
+            resolve: (parent, args) => {
+                return lodash.filter(tasks, (task) => task.projectId === parent.id);
+            }
+        }
     })
-})
+});
 
 const RootQuery = new GraphQLObjectType({
     name: 'RootQueryType',
