@@ -5,8 +5,11 @@ const {graphqlHTTP} = require('express-graphql');
 const schema = require('./schema/schema.js')
 const connection_string = 'mongodb+srv://cooluser:rootytooty@cluster0.awaadm7.mongodb.net/?retryWrites=true&w=majority';
 const mongoose = require('mongoose');
+const cors = require('cors');
 
 const app = express();
+
+app.use(cors());
 
 app.use('/graphql',graphqlHTTP({
   schema: schema,
