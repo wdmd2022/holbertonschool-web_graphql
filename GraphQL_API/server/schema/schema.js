@@ -6,7 +6,8 @@ const Project = require('../models/project');
 const Task = require('../models/task');
 const project = require('../models/project');
 
-let tasks = [
+// task 8: getting rid of arrays, doing database instead
+/* let tasks = [
     {id: '1',
     projectId: '1',
     title: 'Create your first webpage',
@@ -28,7 +29,7 @@ let projects = [
     title: 'Bootstrap',
     weight: 1,
     description: 'Bootstrap is a free and open-source CSS framework directed at responsive, mobile-first front-end web development. It contains CSS and JavaScript design templates for typography, forms, buttons, navigation, and other interface components.'}
-]
+] */
 
 const TaskType = new GraphQLObjectType({
     name: 'Task',
@@ -37,7 +38,9 @@ const TaskType = new GraphQLObjectType({
         project: {
             type: ProjectType,
             resolve: (parent, args) => {
-                return lodash.find(projects, {id: parent.projectId});
+                // return lodash.find(projects, {id: parent.projectId});
+                // removed above per task 8
+                return Project.findById(parent.projectId);
             }
         },
         title: { type: GraphQLString },
@@ -56,7 +59,9 @@ const ProjectType = new GraphQLObjectType({
         tasks: {
             type: new GraphQLList(TaskType),
             resolve: (parent, args) => {
-                return lodash.filter(tasks, (task) => task.projectId === parent.id);
+                // return lodash.filter(tasks, (task) => task.projectId === parent.id);
+                // removed above line per task 8
+                return Task.find({ projectId: parent.id });
             }
         }
     })
@@ -109,7 +114,9 @@ const RootQuery = new GraphQLObjectType({
                 id: { type: GraphQLID }
             },
             resolve: (parent, args) => {
-                return lodash.find(tasks, {id: args.id});
+                // return lodash.find(tasks, {id: args.id});
+                // removed above per task 8
+                return Task.findById(args.id);
             }
         },
         project: {
@@ -118,19 +125,25 @@ const RootQuery = new GraphQLObjectType({
                 id: { type: GraphQLID }
             },
             resolve: (parent, args) => {
-                return lodash.find(projects, {id: args.id});
+                // return lodash.find(projects, {id: args.id});
+                // removed above per task 8
+                return Project.findById(args.id)
             }
         },
         tasks: {
             type: new GraphQLList(TaskType),
             resolve: () => {
-                return tasks;
+                // return tasks;
+                // removed above per task 8
+                return Task.find({});
             }
         },
         projects: {
             type: new GraphQLList(ProjectType),
             resolve: () => {
-                return projects;
+                // return projects;
+                // removed above per task 8
+                return Project.find({});
             }
         }
     },
