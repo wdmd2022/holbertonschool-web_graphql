@@ -35,6 +35,7 @@ const TaskType = new GraphQLObjectType({
     name: 'Task',
     fields: () => ({
         id: { type: GraphQLID },
+        projectId: { type: GraphQLID },
         project: {
             type: ProjectType,
             resolve: (parent, args) => {
@@ -91,13 +92,15 @@ const Mutation = new GraphQLObjectType({
         args: {
             title: { type: new GraphQLNonNull(GraphQLString) },
             weight: { type: new GraphQLNonNull(GraphQLInt) },
-            description: { type: new GraphQLNonNull(GraphQLString) }
+            description: { type: new GraphQLNonNull(GraphQLString) },
+            projectId: { type: new GraphQLNonNull(GraphQLID) }
         },
         resolve(parent, args) {
             let task = new Task({
                 title: args.title,
                 weight: args.weight,
-                description: args.description
+                description: args.description,
+                projectId: args.projectId
             });
             return task.save();
         }
