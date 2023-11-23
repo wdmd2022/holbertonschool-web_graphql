@@ -72,4 +72,17 @@ function AddProject(props) {
   );
 }
 
+const submitForm1 = (e) => {
+  e.preventDefault();
+  console.log(addProjectMutation);
+  props.addProjectMutation({
+    variables: {
+       title: inputsProject.title,
+      weight: parseInt(inputsProject.weight),
+      description: inputsProject.description
+
+    },
+   refetchQueries: [{query: getProjectsQuery}]
+  });
+
 export default AddProject;
